@@ -136,9 +136,10 @@ module.exports = function (webpackEnv) {
   const entry = {}
   paths.appIndexJs.forEach(e => {
     entry[e.name] = [
+      e.path,  //兼容性问题  path要放到webpackHotDevClient之前
       isEnvDevelopment &&
       require.resolve('react-dev-utils/webpackHotDevClient'),
-      e.path
+      
     ].filter(Boolean)
   });
 
