@@ -289,12 +289,12 @@ module.exports = function (webpackEnv) {
             minChunks: 2,
             priority: -20
           },
-          react: {
-            test: /[\\/]node_modules[\\/](react|react-dom)[\\/]/,
-            name: 'react',
-            chunks: 'initial',
-            priority: -10,
-          },
+          // react: {
+          //   test: /[\\/]node_modules[\\/](react|react-dom)[\\/]/,
+          //   name: 'react',
+          //   chunks: 'initial',
+          //   priority: -10,
+          // },
           antd: {
             test: /[\\/]node_modules[\\/](antd)[\\/]/,
             name: 'antd',
@@ -624,7 +624,11 @@ module.exports = function (webpackEnv) {
           )
         )
       }),
-
+      new webpack.DllReferencePlugin({
+        // 描述 react 动态链接库的文件内容
+        manifest: require('../public/dist/react-mainfest.json'),
+        context: __dirname,
+    }),
       // new HtmlWebpackPlugin(
       //   Object.assign(
       //     {},

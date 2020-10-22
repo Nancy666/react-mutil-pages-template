@@ -73,7 +73,8 @@
   "scripts": {
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
-    "test": "node scripts/test.js"
+    "test": "node scripts/test.js",
+    "dll": "webpack --config config/webpack.dll.config.js"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -146,5 +147,8 @@
     "presets": [
       "react-app"
     ]
+  },
+  "devDependencies": {
+    "webpack-cli": "^4.0.0"
   }
 }
