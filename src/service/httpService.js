@@ -1,21 +1,47 @@
 import axios from 'axios';
+import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
+import { Spin } from 'antd';
+import "./../style/common.less";
 
-const service = axios.create({
-    timeout: 30000 // 请求超时时间                                   
-})
+axios.defaults.timeout = 120000;  //超时
+axios.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8';
 
-service.interceptors.request.use(config => {
+let requestCount = 0;
+
+function showLoading() {
+    if (requestCount === 0) {
+        var dom = document.createElement('div')
+        dom.setAttribute('id', 'loading')
+        document.body.appendChild(dom)
+        ReactDOM.render(<Spin tip="数据正在加载中，请稍候..." size="large" />, dom)
+    }
+    requestCount++;
+}
+
+function hideLoading() {
+    requestCount--;
+    if (requestCount === 0) {
+        document.body.removeChild(document.getElementById('loading'))
+    }
+}
+
+axios.interceptors.request.use(config => {
+    showLoading()
     return config
 }, error => {
+    hideLoading()
     Promise.reject(error)
 })
 
 axios.interceptors.response.use((res) => {
+    hideLoading()
     if (res.status !== 200) {
         return Promise.reject(res);
     }
     return res;
 }, (error) => {
+    hideLoading()
     return Promise.reject(error);
 });
 
